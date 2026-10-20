@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft, CheckCircle2, Play, X, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-import { ES_SERVICES, EN_SERVICES } from "@/components/servicesData";
+import { ES_SERVICES, EN_SERVICES, ProjectDetail } from "@/components/servicesData";
 import { DotMatrix, moveGlow } from "@/components/PaguraiLanding";
 
 type Lang = "en" | "es";
@@ -17,6 +17,8 @@ export default function ServiceProjectsPage() {
   const [activeLightboxVideo, setActiveLightboxVideo] = useState<string | null>(null);
   const [activeLightboxImages, setActiveLightboxImages] = useState<string[] | null>(null);
   const [activeLightboxImageIndex, setActiveLightboxImageIndex] = useState<number>(0);
+  const [activeLightboxProject, setActiveLightboxProject] = useState<ProjectDetail | null>(null);
+  const [activeLightboxTab, setActiveLightboxTab] = useState<"carrusel" | "estatico">("carrusel");
 
   useEffect(() => {
     setMounted(true);
@@ -45,6 +47,7 @@ export default function ServiceProjectsPage() {
       if (e.key === "Escape") {
         setActiveLightboxVideo(null);
         setActiveLightboxImages(null);
+        setActiveLightboxProject(null);
       } else if (e.key === "ArrowLeft" && activeLightboxImages) {
         setActiveLightboxImageIndex((prev) => (prev > 0 ? prev - 1 : activeLightboxImages.length - 1));
       } else if (e.key === "ArrowRight" && activeLightboxImages) {
@@ -119,6 +122,10 @@ export default function ServiceProjectsPage() {
       descEyebrow: "Detalles del servicio",
       projectEyebrow: "Casos de éxito",
       viewProject: "Ver resultados",
+      viewCarousel: "Ver carrusel (4)",
+      viewStatic: "Ver estático",
+      carouselTab: "Carrusel (4 fotos)",
+      staticTab: "Estático (1 foto)",
       metaTitle: "Casos de estudio y proyectos construidos.",
       closeVideo: "Cerrar video",
     },
@@ -128,10 +135,40 @@ export default function ServiceProjectsPage() {
       descEyebrow: "Service details",
       projectEyebrow: "Success cases",
       viewProject: "View results",
+      viewCarousel: "View carousel (4)",
+      viewStatic: "View static",
+      carouselTab: "Carousel (4 photos)",
+      staticTab: "Static (1 photo)",
       metaTitle: "Case studies and built projects.",
       closeVideo: "Close video",
     },
   }[lang];
+
+  const openProjectLightbox = (project: ProjectDetail, tab: "carrusel" | "estatico" = "carrusel") => {
+    setActiveLightboxProject(project);
+    setActiveLightboxTab(tab);
+    if (tab === "estatico" && project.staticImage) {
+      setActiveLightboxImages([project.staticImage]);
+    } else if (project.carouselImages && project.carouselImages.length > 0) {
+      setActiveLightboxImages(project.carouselImages);
+    } else if (project.images && project.images.length > 0) {
+      setActiveLightboxImages(project.images);
+    } else {
+      setActiveLightboxImages([project.image]);
+    }
+    setActiveLightboxImageIndex(0);
+  };
+
+  const switchLightboxTab = (tab: "carrusel" | "estatico") => {
+    if (!activeLightboxProject) return;
+    setActiveLightboxTab(tab);
+    if (tab === "estatico" && activeLightboxProject.staticImage) {
+      setActiveLightboxImages([activeLightboxProject.staticImage]);
+    } else if (activeLightboxProject.carouselImages) {
+      setActiveLightboxImages(activeLightboxProject.carouselImages);
+    }
+    setActiveLightboxImageIndex(0);
+  };
 
   return (
     <div className="app-shell theme-dark" style={{ minHeight: "100vh" }}>
@@ -226,12 +263,14 @@ export default function ServiceProjectsPage() {
           {/* 2 cuadros de proyectos */}
           <div className="projects-grid">
             {service.projectsDetail.map((project) => {
+              const isDualSection = Boolean(project.carouselImages && project.staticImage);
               const handleCardClick = () => {
                 if (project.video) {
                   setActiveLightboxVideo(project.video);
+                } else if (isDualSection) {
+                  openProjectLightbox(project, "carrusel");
                 } else if (project.images) {
-                  setActiveLightboxImages(project.images);
-                  setActiveLightboxImageIndex(0);
+                  openProjectLightbox(project);
                 } else {
                   setActiveLightboxImages([project.image]);
                   setActiveLightboxImageIndex(0);
@@ -281,40 +320,75 @@ export default function ServiceProjectsPage() {
                     <div style={{
                       position: "relative",
                       width: "100%",
-                      aspectRatio: project.aspectRatio || "16 / 9",
+                      aspectRatio: project.aspectRatio || "4 / 3",
                       borderRadius: "12px",
                       overflow: "hidden",
                       border: "1px solid var(--line)",
                       marginTop: "16px",
-                      background: "rgba(0, 0, 0, 0.2)"
+                      background: "rgba(0, 0, 0, 0.4)"
                     }}>
                       <Image
                         src={project.image}
-                        alt=""
+                        alt={project.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        style={{ objectFit: project.aspectRatio ? "contain" : "cover" }}
+                        style={{ objectFit: "contain" }}
                         priority
                       />
                     </div>
 
-                    {/* Button */}
+                    {/* Button(s) */}
                     <div style={{ marginTop: "auto", paddingTop: "8px" }}>
-                      <button
-                        type="button"
-                        className="site-btn secondary"
-                        style={{ padding: "8px 18px", fontSize: "11px", minHeight: "36px", width: "100%", display: "flex", justifyContent: "center" }}
-                        onPointerMove={moveGlow}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleCardClick();
-                        }}
-                      >
-                        <span className="btn-glow" aria-hidden="true" />
-                        <span className="btn-content">
-                          {labels.viewProject}
-                        </span>
-                      </button>
+                      {isDualSection ? (
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", width: "100%" }}>
+                          <button
+                            type="button"
+                            className="site-btn secondary"
+                            style={{ padding: "8px 10px", fontSize: "11px", minHeight: "36px", width: "100%", display: "flex", justifyContent: "center" }}
+                            onPointerMove={moveGlow}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openProjectLightbox(project, "carrusel");
+                            }}
+                          >
+                            <span className="btn-glow" aria-hidden="true" />
+                            <span className="btn-content">
+                              {labels.viewCarousel}
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            className="site-btn secondary"
+                            style={{ padding: "8px 10px", fontSize: "11px", minHeight: "36px", width: "100%", display: "flex", justifyContent: "center" }}
+                            onPointerMove={moveGlow}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openProjectLightbox(project, "estatico");
+                            }}
+                          >
+                            <span className="btn-glow" aria-hidden="true" />
+                            <span className="btn-content">
+                              {labels.viewStatic}
+                            </span>
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          className="site-btn secondary"
+                          style={{ padding: "8px 18px", fontSize: "11px", minHeight: "36px", width: "100%", display: "flex", justifyContent: "center" }}
+                          onPointerMove={moveGlow}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCardClick();
+                          }}
+                        >
+                          <span className="btn-glow" aria-hidden="true" />
+                          <span className="btn-content">
+                            {labels.viewProject}
+                          </span>
+                        </button>
+                      )}
                     </div>
                   </div>
                 </article>
@@ -381,13 +455,19 @@ export default function ServiceProjectsPage() {
           <div 
             className="modal-overlay" 
             style={{ zIndex: 110, background: "rgba(2, 3, 10, 0.94)", cursor: "zoom-out" }}
-            onClick={() => setActiveLightboxImages(null)}
+            onClick={() => {
+              setActiveLightboxImages(null);
+              setActiveLightboxProject(null);
+            }}
           >
             <button
               type="button"
               className="modal-close-btn"
               style={{ top: "30px", right: "30px", width: "44px", height: "44px" }}
-              onClick={() => setActiveLightboxImages(null)}
+              onClick={() => {
+                setActiveLightboxImages(null);
+                setActiveLightboxProject(null);
+              }}
             >
               <X size={24} />
             </button>
@@ -395,7 +475,8 @@ export default function ServiceProjectsPage() {
             <div 
               onClick={(e) => e.stopPropagation()} 
               style={{ 
-                width: "min(800px, calc(100vw - 40px))", 
+                width: "min(850px, calc(100vw - 24px))", 
+                maxHeight: "calc(100dvh - 32px)",
                 position: "relative",
                 borderRadius: "16px",
                 overflow: "hidden",
@@ -408,19 +489,71 @@ export default function ServiceProjectsPage() {
                 cursor: "default"
               }}
             >
+              {/* Optional Tabs for dual-format projects (Carrusel vs Estático) */}
+              {activeLightboxProject?.carouselImages && activeLightboxProject?.staticImage && (
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  padding: "12px 16px",
+                  background: "rgba(0, 0, 0, 0.5)",
+                  borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+                  flexWrap: "wrap"
+                }}>
+                  <button
+                    type="button"
+                    onClick={() => switchLightboxTab("carrusel")}
+                    style={{
+                      padding: "7px 18px",
+                      borderRadius: "20px",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      transition: "all 0.25s ease",
+                      border: activeLightboxTab === "carrusel" ? "1px solid #0098ff" : "1px solid rgba(255,255,255,0.15)",
+                      background: activeLightboxTab === "carrusel" ? "rgba(0, 152, 255, 0.22)" : "transparent",
+                      color: activeLightboxTab === "carrusel" ? "#fff" : "var(--ink-muted)",
+                      boxShadow: activeLightboxTab === "carrusel" ? "0 0 14px rgba(0, 152, 255, 0.35)" : "none"
+                    }}
+                  >
+                    ✦ {labels.carouselTab}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => switchLightboxTab("estatico")}
+                    style={{
+                      padding: "7px 18px",
+                      borderRadius: "20px",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      transition: "all 0.25s ease",
+                      border: activeLightboxTab === "estatico" ? "1px solid #0098ff" : "1px solid rgba(255,255,255,0.15)",
+                      background: activeLightboxTab === "estatico" ? "rgba(0, 152, 255, 0.22)" : "transparent",
+                      color: activeLightboxTab === "estatico" ? "#fff" : "var(--ink-muted)",
+                      boxShadow: activeLightboxTab === "estatico" ? "0 0 14px rgba(0, 152, 255, 0.35)" : "none"
+                    }}
+                  >
+                    ✦ {labels.staticTab}
+                  </button>
+                </div>
+              )}
+
               {/* Active Image Container */}
               <div 
                 id="react-lightbox-active-img-wrapper" 
                 className="active-image-container"
                 style={{ 
                   width: "100%", 
-                  aspectRatio: "4 / 3", 
+                  height: "clamp(300px, 60vh, 580px)", 
                   position: "relative", 
                   display: "flex", 
                   alignItems: isMockup ? "flex-start" : "center", 
                   justifyContent: "center", 
                   background: "#02030a",
-                  overflowY: isMockup ? "auto" : "hidden"
+                  overflowY: isMockup ? "auto" : "hidden",
+                  padding: "10px"
                 }}
               >
                 <img 
@@ -434,6 +567,8 @@ export default function ServiceProjectsPage() {
                   } : {
                     maxWidth: "100%",
                     maxHeight: "100%",
+                    width: "auto",
+                    height: "auto",
                     objectFit: "contain"
                   }}
                 />

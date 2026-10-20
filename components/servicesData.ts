@@ -14,6 +14,8 @@ export type ProjectDetail = {
   video?: string;
   images?: string[];
   aspectRatio?: string;
+  carouselImages?: string[];
+  staticImage?: string;
 };
 
 export type Service = {
@@ -49,26 +51,33 @@ export const EN_SERVICES: Service[] = [
         company: "Danna Olarte",
         title: "AI Catalog Shoot",
         description: "Generated catalog and lifestyle assets for an apparel brand, reducing studio shoot costs.",
-        image: "/assets/images/projects/service0-project0.webp",
+        image: "/assets/images/projects/JL portada.webp",
+        aspectRatio: "4 / 3",
+        carouselImages: [
+          "/assets/images/projects/JL CR1.webp",
+          "/assets/images/projects/JL_CR2.webp",
+          "/assets/images/projects/JL_CR3.webp",
+          "/assets/images/projects/JL_CR4.webp"
+        ],
+        staticImage: "/assets/images/projects/JL_C1_Mon_B_StillReachable.webp",
         images: [
-          "/assets/images/projects/Imagen 1 Pagu.webp",
-          "/assets/images/projects/Imagen 2 Pagu.webp",
-          "/assets/images/projects/Imagen 3 Pagu.webp",
-          "/assets/images/projects/Imagen 4 Pagu.webp",
-          "/assets/images/projects/Imagen 5  Pagu.webp"
+          "/assets/images/projects/JL CR1.webp",
+          "/assets/images/projects/JL_CR2.webp",
+          "/assets/images/projects/JL_CR3.webp",
+          "/assets/images/projects/JL_CR4.webp"
         ]
       },
       {
         company: "Danna Olarte",
         title: "Creative Variations",
         description: "High-volume variations for social media ad testing, maintaining brand style.",
-        image: "/assets/images/projects/service0-project1.webp",
+        image: "/assets/images/projects/79fc3ac8-1ee7-4673-b5c9-565910c183b9.webp",
+        aspectRatio: "4 / 3",
         images: [
-          "/assets/images/projects/velo-slide-1.webp",
-          "/assets/images/projects/velo-slide-2.webp",
-          "/assets/images/projects/velo-slide-3.webp",
-          "/assets/images/projects/velo-slide-4.webp",
-          "/assets/images/projects/velo-slide-5.webp"
+          "/assets/images/projects/PREO_1.webp",
+          "/assets/images/projects/PREO_2.webp",
+          "/assets/images/projects/PREO_3.webp",
+          "/assets/images/projects/PREO_4.webp"
         ]
       }
     ],
@@ -166,26 +175,33 @@ export const ES_SERVICES: Service[] = [
         company: "Danna Olarte",
         title: "Sesión de Campaña IA",
         description: "Generación de imágenes lifestyle de producto para catálogo, reduciendo costos de sesiones de fotos.",
-        image: "/assets/images/projects/service0-project0.webp",
+        image: "/assets/images/projects/JL portada.webp",
+        aspectRatio: "4 / 3",
+        carouselImages: [
+          "/assets/images/projects/JL CR1.webp",
+          "/assets/images/projects/JL_CR2.webp",
+          "/assets/images/projects/JL_CR3.webp",
+          "/assets/images/projects/JL_CR4.webp"
+        ],
+        staticImage: "/assets/images/projects/JL_C1_Mon_B_StillReachable.webp",
         images: [
-          "/assets/images/projects/Imagen 1 Pagu.webp",
-          "/assets/images/projects/Imagen 2 Pagu.webp",
-          "/assets/images/projects/Imagen 3 Pagu.webp",
-          "/assets/images/projects/Imagen 4 Pagu.webp",
-          "/assets/images/projects/Imagen 5  Pagu.webp"
+          "/assets/images/projects/JL CR1.webp",
+          "/assets/images/projects/JL_CR2.webp",
+          "/assets/images/projects/JL_CR3.webp",
+          "/assets/images/projects/JL_CR4.webp"
         ]
       },
       {
         company: "Danna Olarte",
         title: "Variaciones Creativas",
         description: "Variaciones de alto volumen para testing en pauta digital, manteniendo la estética de marca.",
-        image: "/assets/images/projects/service0-project1.webp",
+        image: "/assets/images/projects/79fc3ac8-1ee7-4673-b5c9-565910c183b9.webp",
+        aspectRatio: "4 / 3",
         images: [
-          "/assets/images/projects/velo-slide-1.webp",
-          "/assets/images/projects/velo-slide-2.webp",
-          "/assets/images/projects/velo-slide-3.webp",
-          "/assets/images/projects/velo-slide-4.webp",
-          "/assets/images/projects/velo-slide-5.webp"
+          "/assets/images/projects/PREO_1.webp",
+          "/assets/images/projects/PREO_2.webp",
+          "/assets/images/projects/PREO_3.webp",
+          "/assets/images/projects/PREO_4.webp"
         ]
       }
     ],

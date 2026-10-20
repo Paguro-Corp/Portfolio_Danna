@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -72,12 +72,12 @@
     .project-card-image-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 4 / 3;
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid var(--line);
       margin-top: 16px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.4);
     }
     
     .project-card-image-wrapper img {
@@ -85,13 +85,13 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       transition: transform 0.6s var(--ease-out), filter 0.4s ease;
-      filter: saturate(0.85) contrast(0.98) brightness(0.85);
+      filter: saturate(0.95) contrast(1) brightness(0.95);
     }
     
     .project-card:hover .project-card-image-wrapper img {
-      transform: scale(1.05);
+      transform: scale(1.03);
       filter: saturate(1) contrast(1.02) brightness(1);
     }
 
@@ -1257,10 +1257,20 @@
         <i data-lucide="x" style="width: 24px; height: 24px;"></i>
       </button>
       
-      <div onclick="event.stopPropagation()" style="width: min(800px, calc(100vw - 40px)); position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85); margin: auto; display: flex; flex-direction: column; background: #080912;">
+      <div onclick="event.stopPropagation()" style="width: min(850px, calc(100vw - 24px)); max-height: calc(100vh - 32px); position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85); margin: auto; display: flex; flex-direction: column; background: #080912;">
+        <!-- Optional Tabs for dual-format projects (Carrusel vs Estático) -->
+        <div id="lightbox-dual-tabs" style="display: none; align-items: center; justify-content: center; gap: 10px; padding: 12px 16px; background: rgba(0, 0, 0, 0.5); border-bottom: 1px solid rgba(255, 255, 255, 0.08); flex-wrap: wrap;">
+          <button id="lightbox-tab-carrusel" type="button" onclick="switchDualTab('carrusel')" style="padding: 7px 18px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; border: 1px solid #0098ff; background: rgba(0, 152, 255, 0.22); color: #fff; box-shadow: 0 0 14px rgba(0, 152, 255, 0.35);">
+            ✦ <span class="lang-es">Carrusel (4 fotos)</span><span class="lang-en">Carousel (4 photos)</span>
+          </button>
+          <button id="lightbox-tab-estatico" type="button" onclick="switchDualTab('estatico')" style="padding: 7px 18px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: var(--ink-muted); box-shadow: none;">
+            ✦ <span class="lang-es">Estático (1 foto)</span><span class="lang-en">Static (1 photo)</span>
+          </button>
+        </div>
+
         <!-- Active Image in Large size -->
-        <div id="lightbox-active-img-wrapper" class="active-image-container" style="width: 100%; aspect-ratio: 4 / 3; position: relative; display: flex; align-items: center; justify-content: center; background: #02030a;">
-          <img id="lightbox-active-img" src="" alt="Gallery Image" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        <div id="lightbox-active-img-wrapper" class="active-image-container" style="width: 100%; height: clamp(300px, 60vh, 580px); position: relative; display: flex; align-items: center; justify-content: center; background: #02030a; padding: 10px;">
+          <img id="lightbox-active-img" src="" alt="Gallery Image" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
           
           <!-- Prev Button -->
           <button id="lightbox-prev-btn" onclick="prevGalleryImage()" style="position: absolute; left: 16px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 5;">
@@ -1317,26 +1327,33 @@
               company: "Danna Olarte",
               title: "Sesión de Campaña IA",
               description: "Generación de imágenes lifestyle de producto para catálogo, reduciendo costos de sesiones de fotos.",
-              image: "./public/assets/images/projects/service0-project0.webp",
+              image: "./public/assets/images/projects/JL portada.webp",
+              aspectRatio: "4 / 3",
+              carouselImages: [
+                "./public/assets/images/projects/JL CR1.webp",
+                "./public/assets/images/projects/JL_CR2.webp",
+                "./public/assets/images/projects/JL_CR3.webp",
+                "./public/assets/images/projects/JL_CR4.webp"
+              ],
+              staticImage: "./public/assets/images/projects/JL_C1_Mon_B_StillReachable.webp",
               images: [
-                "./public/assets/images/projects/Imagen 1 Pagu.webp",
-                "./public/assets/images/projects/Imagen 2 Pagu.webp",
-                "./public/assets/images/projects/Imagen 3 Pagu.webp",
-                "./public/assets/images/projects/Imagen 4 Pagu.webp",
-                "./public/assets/images/projects/Imagen 5  Pagu.webp"
+                "./public/assets/images/projects/JL CR1.webp",
+                "./public/assets/images/projects/JL_CR2.webp",
+                "./public/assets/images/projects/JL_CR3.webp",
+                "./public/assets/images/projects/JL_CR4.webp"
               ]
             },
             {
               company: "Danna Olarte",
               title: "Variaciones Creativas",
               description: "Variaciones de alto volumen para testing en pauta digital, manteniendo la estética de marca.",
-              image: "./public/assets/images/projects/service0-project1.webp",
+              image: "./public/assets/images/projects/79fc3ac8-1ee7-4673-b5c9-565910c183b9.webp",
+              aspectRatio: "4 / 3",
               images: [
-                "./public/assets/images/projects/velo-slide-1.webp",
-                "./public/assets/images/projects/velo-slide-2.webp",
-                "./public/assets/images/projects/velo-slide-3.webp",
-                "./public/assets/images/projects/velo-slide-4.webp",
-                "./public/assets/images/projects/velo-slide-5.webp"
+                "./public/assets/images/projects/PREO_1.webp",
+                "./public/assets/images/projects/PREO_2.webp",
+                "./public/assets/images/projects/PREO_3.webp",
+                "./public/assets/images/projects/PREO_4.webp"
               ]
             }
           ]
@@ -1415,26 +1432,33 @@
               company: "Danna Olarte",
               title: "AI Catalog Shoot",
               description: "Generated catalog and lifestyle assets for an apparel brand, reducing studio shoot costs.",
-              image: "./public/assets/images/projects/service0-project0.webp",
+              image: "./public/assets/images/projects/JL portada.webp",
+              aspectRatio: "4 / 3",
+              carouselImages: [
+                "./public/assets/images/projects/JL CR1.webp",
+                "./public/assets/images/projects/JL_CR2.webp",
+                "./public/assets/images/projects/JL_CR3.webp",
+                "./public/assets/images/projects/JL_CR4.webp"
+              ],
+              staticImage: "./public/assets/images/projects/JL_C1_Mon_B_StillReachable.webp",
               images: [
-                "./public/assets/images/projects/Imagen 1 Pagu.webp",
-                "./public/assets/images/projects/Imagen 2 Pagu.webp",
-                "./public/assets/images/projects/Imagen 3 Pagu.webp",
-                "./public/assets/images/projects/Imagen 4 Pagu.webp",
-                "./public/assets/images/projects/Imagen 5  Pagu.webp"
+                "./public/assets/images/projects/JL CR1.webp",
+                "./public/assets/images/projects/JL_CR2.webp",
+                "./public/assets/images/projects/JL_CR3.webp",
+                "./public/assets/images/projects/JL_CR4.webp"
               ]
             },
             {
               company: "Danna Olarte",
               title: "Creative Variations",
               description: "High-volume variations for social media ad testing, maintaining brand style.",
-              image: "./public/assets/images/projects/service0-project1.webp",
+              image: "./public/assets/images/projects/79fc3ac8-1ee7-4673-b5c9-565910c183b9.webp",
+              aspectRatio: "4 / 3",
               images: [
-                "./public/assets/images/projects/velo-slide-1.webp",
-                "./public/assets/images/projects/velo-slide-2.webp",
-                "./public/assets/images/projects/velo-slide-3.webp",
-                "./public/assets/images/projects/velo-slide-4.webp",
-                "./public/assets/images/projects/velo-slide-5.webp"
+                "./public/assets/images/projects/PREO_1.webp",
+                "./public/assets/images/projects/PREO_2.webp",
+                "./public/assets/images/projects/PREO_3.webp",
+                "./public/assets/images/projects/PREO_4.webp"
               ]
             }
           ]
@@ -1754,34 +1778,99 @@
 
       const viewDemoText = currentLang === 'es' ? "Ver resultados" : "View results";
 
-      service.projectsDetail.forEach(project => {
+      service.projectsDetail.forEach((project, pIdx) => {
         const card = document.createElement('article');
         card.className = `glow-card mini block-card project-card ${service.accent === 'pink' ? 'connected-card' : ''}`;
         
-        let btnAction = '';
+        const isDual = Boolean(project.carouselImages && project.staticImage);
+        let btnBlock = '';
+
         if (project.video) {
           card.style.cursor = 'pointer';
           card.onclick = () => openVideoLightbox(project.video);
-          btnAction = `openVideoLightbox('${project.video}')`;
+          btnBlock = `
+            <div style="margin-top: auto; padding-top: 8px;">
+              <button
+                type="button"
+                class="site-btn secondary"
+                style="padding: 8px 18px; font-size: 11px; min-height: 36px; width: 100%; display: flex; justify-content: center;"
+                onpointermove="moveGlow(event)"
+                onclick="event.stopPropagation(); openVideoLightbox('${project.video}');"
+              >
+                <span class="btn-glow" aria-hidden="true"></span>
+                <span class="btn-content">${viewDemoText}</span>
+              </button>
+            </div>
+          `;
+        } else if (isDual) {
+          card.style.cursor = 'pointer';
+          card.onclick = () => openDualProjectLightbox(pIdx, 'carrusel');
+          btnBlock = `
+            <div style="margin-top: auto; padding-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
+              <button
+                type="button"
+                class="site-btn secondary"
+                style="padding: 8px 10px; font-size: 11px; min-height: 36px; width: 100%; display: flex; justify-content: center;"
+                onpointermove="moveGlow(event)"
+                onclick="event.stopPropagation(); openDualProjectLightbox(${pIdx}, 'carrusel');"
+              >
+                <span class="btn-glow" aria-hidden="true"></span>
+                <span class="btn-content">${currentLang === 'es' ? 'Ver carrusel (4)' : 'View carousel (4)'}</span>
+              </button>
+              <button
+                type="button"
+                class="site-btn secondary"
+                style="padding: 8px 10px; font-size: 11px; min-height: 36px; width: 100%; display: flex; justify-content: center;"
+                onpointermove="moveGlow(event)"
+                onclick="event.stopPropagation(); openDualProjectLightbox(${pIdx}, 'estatico');"
+              >
+                <span class="btn-glow" aria-hidden="true"></span>
+                <span class="btn-content">${currentLang === 'es' ? 'Ver estático' : 'View static'}</span>
+              </button>
+            </div>
+          `;
         } else if (project.images) {
           card.style.cursor = 'pointer';
           card.onclick = () => openImageLightbox(project.images);
           const imagesStr = project.images.map(img => `'${img}'`).join(',');
-          btnAction = `openImageLightbox([${imagesStr}])`;
+          btnBlock = `
+            <div style="margin-top: auto; padding-top: 8px;">
+              <button
+                type="button"
+                class="site-btn secondary"
+                style="padding: 8px 18px; font-size: 11px; min-height: 36px; width: 100%; display: flex; justify-content: center;"
+                onpointermove="moveGlow(event)"
+                onclick="event.stopPropagation(); openImageLightbox([${imagesStr}]);"
+              >
+                <span class="btn-glow" aria-hidden="true"></span>
+                <span class="btn-content">${viewDemoText}</span>
+              </button>
+            </div>
+          `;
         } else {
           card.style.cursor = 'pointer';
           card.onclick = () => openImageLightbox([project.image]);
-          btnAction = `openImageLightbox(['${project.image}'])`;
+          btnBlock = `
+            <div style="margin-top: auto; padding-top: 8px;">
+              <button
+                type="button"
+                class="site-btn secondary"
+                style="padding: 8px 18px; font-size: 11px; min-height: 36px; width: 100%; display: flex; justify-content: center;"
+                onpointermove="moveGlow(event)"
+                onclick="event.stopPropagation(); openImageLightbox(['${project.image}']);"
+              >
+                <span class="btn-glow" aria-hidden="true"></span>
+                <span class="btn-content">${viewDemoText}</span>
+              </button>
+            </div>
+          `;
         }
         card.onpointermove = moveGlow;
 
-        // Custom overlay indicator icon (Removed as requested)
-        let iconOverlay = '';
+        const imageRatio = project.aspectRatio || "4 / 3";
+        const fitStyle = "contain";
 
-        const imageRatio = project.aspectRatio || "16 / 9";
-        const fitStyle = project.aspectRatio ? "contain" : "cover";
-
-        // Clean layout content: Company/Icon header -> Text Title/Description -> Image Wrapper -> Button
+        // Clean layout content: Company/Icon header -> Text Title/Description -> Image Wrapper -> Button(s)
         card.innerHTML = `
           <div style="display: flex; flex-direction: column; gap: 14px; height: 100%;">
             <!-- Header -->
@@ -1803,24 +1892,12 @@
             </div>
 
             <!-- Image wrapper -->
-            <div class="project-card-image-wrapper" style="aspect-ratio: ${imageRatio};">
-              <img src="${project.image}" alt="" style="object-fit: ${fitStyle};">
-              ${iconOverlay}
+            <div class="project-card-image-wrapper" style="aspect-ratio: ${imageRatio}; background: rgba(0, 0, 0, 0.4);">
+              <img src="${project.image}" alt="" style="object-fit: ${fitStyle}; width: 100%; height: 100%;">
             </div>
 
-            <!-- Button at bottom (Performs same action as clicking card) -->
-            <div style="margin-top: auto; padding-top: 8px;">
-              <button
-                type="button"
-                class="site-btn secondary"
-                style="padding: 8px 18px; font-size: 11px; min-height: 36px; width: 100%; display: flex; justify-content: center;"
-                onpointermove="moveGlow(event)"
-                onclick="event.stopPropagation(); ${btnAction};"
-              >
-                <span class="btn-glow" aria-hidden="true"></span>
-                <span class="btn-content">${viewDemoText}</span>
-              </button>
-            </div>
+            <!-- Button(s) at bottom -->
+            ${btnBlock}
           </div>
         `;
         cardsContainer.appendChild(card);
@@ -1889,8 +1966,73 @@
     let activeGalleryImages = [];
     let activeGalleryIndex = 0;
     let autoscrollInterval = null;
+    let activeDualProject = null;
+    let activeDualTab = 'carrusel';
+
+    function openDualProjectLightbox(projectIndex, initialTab) {
+      const service = SERVICES_DATA[currentLang][activeModalIndex];
+      if (!service || !service.projectsDetail || !service.projectsDetail[projectIndex]) return;
+      activeDualProject = service.projectsDetail[projectIndex];
+      activeDualTab = initialTab || 'carrusel';
+
+      const dualTabs = document.getElementById('lightbox-dual-tabs');
+      if (dualTabs) {
+        dualTabs.style.display = 'flex';
+        updateDualTabStyles();
+      }
+
+      if (activeDualTab === 'estatico' && activeDualProject.staticImage) {
+        openImageLightbox([activeDualProject.staticImage]);
+      } else if (activeDualProject.carouselImages) {
+        openImageLightbox(activeDualProject.carouselImages);
+      }
+    }
+
+    function switchDualTab(tab) {
+      if (!activeDualProject) return;
+      activeDualTab = tab;
+      updateDualTabStyles();
+      if (tab === 'estatico' && activeDualProject.staticImage) {
+        activeGalleryImages = [activeDualProject.staticImage];
+      } else if (activeDualProject.carouselImages) {
+        activeGalleryImages = activeDualProject.carouselImages;
+      }
+      activeGalleryIndex = 0;
+      updateGalleryView();
+    }
+
+    function updateDualTabStyles() {
+      const tabCarrusel = document.getElementById('lightbox-tab-carrusel');
+      const tabEstatico = document.getElementById('lightbox-tab-estatico');
+      if (!tabCarrusel || !tabEstatico) return;
+      if (activeDualTab === 'carrusel') {
+        tabCarrusel.style.border = '1px solid #0098ff';
+        tabCarrusel.style.background = 'rgba(0, 152, 255, 0.22)';
+        tabCarrusel.style.color = '#fff';
+        tabCarrusel.style.boxShadow = '0 0 14px rgba(0, 152, 255, 0.35)';
+
+        tabEstatico.style.border = '1px solid rgba(255,255,255,0.15)';
+        tabEstatico.style.background = 'transparent';
+        tabEstatico.style.color = 'var(--ink-muted)';
+        tabEstatico.style.boxShadow = 'none';
+      } else {
+        tabEstatico.style.border = '1px solid #0098ff';
+        tabEstatico.style.background = 'rgba(0, 152, 255, 0.22)';
+        tabEstatico.style.color = '#fff';
+        tabEstatico.style.boxShadow = '0 0 14px rgba(0, 152, 255, 0.35)';
+
+        tabCarrusel.style.border = '1px solid rgba(255,255,255,0.15)';
+        tabCarrusel.style.background = 'transparent';
+        tabCarrusel.style.color = 'var(--ink-muted)';
+        tabCarrusel.style.boxShadow = 'none';
+      }
+    }
 
     function openImageLightbox(images) {
+      if (!activeDualProject) {
+        const dualTabs = document.getElementById('lightbox-dual-tabs');
+        if (dualTabs) dualTabs.style.display = 'none';
+      }
       activeGalleryImages = images;
       activeGalleryIndex = 0;
       updateGalleryView();
@@ -2071,6 +2213,9 @@
     // Close lightbox
     function closeImageLightbox() {
       stopAutoScroll();
+      activeDualProject = null;
+      const dualTabs = document.getElementById('lightbox-dual-tabs');
+      if (dualTabs) dualTabs.style.display = 'none';
       document.getElementById('image-lightbox-overlay').style.display = 'none';
       if (document.getElementById('projects-modal-overlay').style.display === 'flex') {
         document.body.style.overflow = 'hidden';
